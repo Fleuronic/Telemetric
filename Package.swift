@@ -1,8 +1,11 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 import PackageDescription
 
 let package = Package(
 	name: "Telemetric",
+	platforms: [
+		.iOS(.v15)
+	],
 	products: [
 		.library(
 			name: "Telemetric",
