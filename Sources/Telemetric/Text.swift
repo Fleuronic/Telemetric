@@ -1,47 +1,59 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
-import UIKit
-import ReactiveKit
-import Bond
+import class UIKit.UIColor
+import class UIKit.UILabel
+import class UIKit.UITextField
+import class UIKit.UITextView
+import struct ReactiveKit.SafeSignal
+import struct Bond.Bond
+import protocol Metric.TextStyled
+import protocol ReactiveKit.SignalProtocol
+import protocol ReactiveKit.ReactiveExtensions
 
-public extension UILabel {
-	static func text<Source: SignalProtocol, Strings>(_ source: Source) -> UILabel where Source.Element == (Strings.Type) -> String, Source.Error == Never {
-		let label = UILabel()
-		_ = source.map { $0(Strings.self) }.bind(to: label.reactive.text)
-		return label
+public extension Styled where Value: UILabel {
+	var multiline: Self {
+		self.numberOfLines(0)
+	}
+
+	func text<Source: SignalProtocol, Strings>(_ source: Source) -> UILabel where Source.Element == (Strings.Type) -> String, Source.Error == Never {
+		_ = source.map { $0(Strings.self) }.bind(to: value.reactive.text)
+		return value
+	}
+
+
+	func text<Source: SignalProtocol>(_ source: Source) -> UILabel where Source.Element == String?, Source.Error == Never {
+		_ = source.bind(to: value.reactive.text)
+		return value
 	}
 }
 
 // MARK: -
-public extension UITextField {
-	func edited<Target: BindableProtocol>(_ target: Target) -> Self where Target.Element == String {
-		_ = target.bind(signal: reactive.editedText)
+public extension Styled where Value: UITextField {
+	func placeholder<Source: SignalProtocol, Strings>(_ source: Source) -> Self where Source.Element == (Strings.Type) -> String, Source.Error == Never {
+		_ = source.map { $0(Strings.self) }.bind(to: value.reactive.placeholder)
 		return self
-	}
-
-	func text<Source: SignalProtocol>(_ source: Source) -> UITextField where Source.Element == String, Source.Error == Never {
-		_ = source.bind(to: reactive.text)
-		return self
-	}
-
-	static func placeholder<Source: SignalProtocol, Strings>(_ source: Source) -> UITextField where Source.Element == (Strings.Type) -> String, Source.Error == Never {
-		let textField = UITextField()
-		_ = source.map { $0(Strings.self) }.bind(to: textField.reactive.placeholder)
-		return textField
 	}
 }
 
 // MARK: -
-public extension UITextView {
-	func edited<Target: BindableProtocol>(_ target: Target) -> Self where Target.Element == String {
-		_ = target.bind(signal: reactive.editedText)
-		return self
+public extension Styled where Value: TextStyled {
+	var centered: Self {
+		self.textAlignment(.center)
 	}
 
-	static func text<Source: SignalProtocol>(_ source: Source) -> UITextView where Source.Element == String, Source.Error == Never {
-		let textView = UITextView()
-		_ = source.bind(to: textView.reactive.text)
-		return textView
+	func textColorAsset<TextColor>(_ textColor: @escaping (TextColor.Type) -> UIColor) -> Self {
+		let color = textColor(TextColor.self)
+		(value as? UILabel)?.textColor = color
+		(value as? UITextField)?.textColor = color
+		(value as? UITextView)?.textColor = color
+		return self
+	}
+}
+
+// MARK: -
+public extension ReactiveExtensions where Base: UITextField {
+	var edited: SafeSignal<String> {
+		text.ignoreNils().removeDuplicates()
 	}
 }
 
@@ -50,15 +62,11 @@ private extension ReactiveExtensions where Base: UITextField {
 	var placeholder: Bond<String> {
 		bond { $0.placeholder = $1 }
 	}
-
-	var editedText: SafeSignal<String> {
-		text.ignoreNils().removeDuplicates()
-	}
 }
 
 // MARK: -
-private extension ReactiveExtensions where Base: UITextView {
-	var editedText: SafeSignal<String> {
+public extension ReactiveExtensions where Base: UITextView {
+	var edited: SafeSignal<String> {
 		text.ignoreNils().removeDuplicates()
 	}
 }

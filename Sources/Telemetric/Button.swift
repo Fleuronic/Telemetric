@@ -1,22 +1,23 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
-import UIKit
-import ReactiveKit
+import struct Bond.Bond
+import class UIKit.UIButton
+import protocol ReactiveKit.SignalProtocol
+import protocol ReactiveKit.ReactiveExtensions
 
-public extension UIButton {
+public extension Styled<UIButton> {
 	func title<Source: SignalProtocol, Strings>(_ source: Source) -> Self where Source.Element == (Strings.Type) -> String, Source.Error == Never {
-		_ = source.map { $0(Strings.self) }.bind(to: reactive.title)
+		_ = source.map { $0(Strings.self) }.bind(to: value.reactive.title)
 		return self
 	}
+}
 
-	func enabled<Source: SignalProtocol>(_ source: Source) -> Self where Source.Element == Bool, Source.Error == Never {
-		_ = source.bind(to: reactive.isEnabled)
-		return self
-	}
-
-	static func tap<Target: BindableProtocol>(_ target: Target) -> UIButton where Target.Element == Void {
-		let button = UIButton()
-		_ = target.bind(signal: button.reactive.tap)
-		return button
+// MARK: -
+public extension ReactiveExtensions where Base: UIButton {
+	var showsActivity: Bond<Bool> {
+		bond {
+			$0.setTitle($1 ? .init() : $0.currentTitle, for: .normal)
+			$0.configuration?.showsActivityIndicator = $1
+		}
 	}
 }

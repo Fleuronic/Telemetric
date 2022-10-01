@@ -1,29 +1,32 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
-import UIKit
-import ReactiveKit
-import Bond
-import Metric
+import enum Metric.Border
+import class UIKit.UIView
+import struct Metric.Opacity
+import struct Bond.Bond
+import protocol Layoutless.AnyLayout
+import protocol ReactiveKit.ReactiveExtensions
 
 public extension UIView {
-	func visible<Source: SignalProtocol>(_ source: Source) -> Self where Source.Element == Bool, Source.Error == Never {
-		_ = source.bind(to: reactive.isVisible)
-		return self
+	static var container: Styled<UIView> {
+		.init(.init())
+	}
+}
+
+// MARK: -
+public extension Styled where Value: UIView {
+	func addingLayout(_ layout: AnyLayout) -> AnyLayout {
+		value.addingLayout(layout)
 	}
 
-	func hidden<Source: SignalProtocol>(_ source: Source) -> Self where Source.Element == Bool, Source.Error == Never {
-		_ = source.bind(to: reactive.isHidden)
-		return self
-	}
-
-	func opacity<Source: SignalProtocol>(_ source: Source) -> Self where Source.Element == Opacity, Source.Error == Never {
-		_ = source.bind(to: reactive.opacity)
+	func borderWidth<BorderWidth>(_ width: (BorderWidth.Type) -> Border.Width) -> Self {
+		value.borderWidth = width(BorderWidth.self)
 		return self
 	}
 }
 
 // MARK: -
-private extension ReactiveExtensions where Base: UIView {
+public extension ReactiveExtensions where Base: UIView {
 	var isVisible: Bond<Bool> {
 		bond { $0.isHidden = !$1 }
 	}
