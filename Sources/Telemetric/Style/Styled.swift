@@ -6,11 +6,10 @@ import struct ReactiveKit.SafeSignal
 import struct Bond.Bond
 import struct Bond.DynamicSubject
 import protocol ReactiveKit.SignalProtocol
-import protocol ReactiveKit.ReactiveExtensionsProvider
 import protocol ReactiveKit.BindableProtocol
 
 @dynamicMemberLookup
-public struct Styled<Value: NSObject & ReactiveExtensionsProvider> {
+public struct Styled<Value: Stylable> {
 	let value: Value
 
 	public init() {
@@ -20,7 +19,7 @@ public struct Styled<Value: NSObject & ReactiveExtensionsProvider> {
 
 // MARK: -
 public extension Styled {
-	subscript<T>(dynamicMember keyPath: WritableKeyPath<Value, T>) -> (T) -> Styled<Value> {
+	subscript<T>(dynamicMember keyPath: WritableKeyPath<Value, T>) -> (T) -> Self {
 		{
 			var value = self.value
 			value[keyPath: keyPath] = $0

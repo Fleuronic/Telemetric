@@ -5,7 +5,11 @@ import class UIKit.UIButton
 import protocol ReactiveKit.SignalProtocol
 import protocol ReactiveKit.ReactiveExtensions
 
-public extension Styled<UIButton> {
+public final class Button: UIButton {}
+
+extension Button: Stylable {}
+
+public extension Styled<Button> {
 	func title<Source: SignalProtocol, Strings>(_ source: Source) -> Self where Source.Element == (Strings.Type) -> String, Source.Error == Never {
 		_ = source.map { $0(Strings.self) }.bind(to: value.reactive.title)
 		return self

@@ -7,21 +7,22 @@ import struct Bond.Bond
 import protocol Layoutless.AnyLayout
 import protocol ReactiveKit.ReactiveExtensions
 
+public final class View: UIView {}
+
+// MARK: -
+extension View: Stylable {}
+
+// MARK: -
 public extension UIView {
-	static var container: Styled<UIView> {
+	static var container: Styled<View> {
 		.init()
 	}
 }
 
 // MARK: -
-public extension Styled where Value: UIView {
+public extension Styled<View> {
 	func addingLayout(_ layout: AnyLayout) -> AnyLayout {
 		value.addingLayout(layout)
-	}
-
-	func borderWidth<BorderWidth>(_ width: (BorderWidth.Type) -> Border.Width) -> Self {
-		value.borderWidth = width(BorderWidth.self)
-		return self
 	}
 }
 

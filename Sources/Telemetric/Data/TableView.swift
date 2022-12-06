@@ -10,14 +10,18 @@ import protocol ReactiveKit.SignalProtocol
 import protocol ReactiveKit.BindableProtocol
 import protocol ReactiveKit.ReactiveExtensions
 
+public final class TableView: UITableView {}
+
+extension TableView: Stylable {}
+
 public extension UITableView {
-	static var plain: Styled<UITableView> {
+	static var plain: Styled<TableView> {
 		.init()
 	}
 }
 
 // MARK: -
-public extension Styled where Value: UITableView {
+public extension Styled<TableView> {
 	func rowSelected<Target: BindableProtocol>(_ target: Target) -> Self where Target.Element == Int {
 		_ = target.bind(signal: value.reactive.selectedRowIndexPath.map(\.row))
 		return self
