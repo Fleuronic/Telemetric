@@ -13,8 +13,8 @@ import protocol ReactiveKit.BindableProtocol
 public struct Styled<Value: NSObject & ReactiveExtensionsProvider> {
 	let value: Value
 
-	public init(_ value: Value = .init()) {
-		self.value = value
+	public init() {
+		value = .init()
 	}
 }
 
@@ -24,7 +24,7 @@ public extension Styled {
 		{
 			var value = self.value
 			value[keyPath: keyPath] = $0
-			return .init(value)
+			return .init(value: value)
 		}
 	}
 
@@ -47,5 +47,12 @@ public extension Styled {
 			_ = $0.bind(signal: value.reactive[keyPath: keyPath])
 			return value
 		}
+	}
+}
+
+// MARK: -
+private extension Styled {
+	init(value: Value) {
+		self.value = value
 	}
 }

@@ -12,7 +12,7 @@ import protocol ReactiveKit.ReactiveExtensions
 
 public extension UITableView {
 	static var plain: Styled<UITableView> {
-		.init(.init())
+		.init()
 	}
 }
 

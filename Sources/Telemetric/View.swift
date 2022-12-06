@@ -9,7 +9,7 @@ import protocol ReactiveKit.ReactiveExtensions
 
 public extension UIView {
 	static var container: Styled<UIView> {
-		.init(.init())
+		.init()
 	}
 }
 
