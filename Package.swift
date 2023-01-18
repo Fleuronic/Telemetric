@@ -9,9 +9,7 @@ let package = Package(
 	products: [
 		.library(
 			name: "Telemetric",
-			targets: [
-				"Telemetric"
-			]
+			targets: ["Telemetric"]
 		)
 	],
 	dependencies: [
