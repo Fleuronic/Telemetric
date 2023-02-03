@@ -5,8 +5,10 @@ import protocol ReactiveKit.SignalProtocol
 
 public final class Label: UILabel {}
 
+// MARK: -
 extension Label: TextStylable {}
 
+// MARK: -
 public extension Styled<Label> {
 	var multiline: Self {
 		self.numberOfLines(0)
