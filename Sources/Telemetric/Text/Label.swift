@@ -18,9 +18,4 @@ public extension Styled<Label> {
 		_ = source.map { $0(Strings.self) }.bind(to: value.reactive.text)
 		return value
 	}
-
-	func text<Source: SignalProtocol>(_ source: Source) -> UILabel where Source.Element == String?, Source.Error == Never {
-		_ = source.bind(to: value.reactive.text)
-		return value
-	}
 }

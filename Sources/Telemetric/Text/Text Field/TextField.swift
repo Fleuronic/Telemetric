@@ -46,8 +46,7 @@ extension TextField: TextStylable {}
 // MARK: -
 public extension Styled<TextField> {
 	func placeholder<Source: SignalProtocol, Strings>(_ source: Source) -> Self where Source.Element == (Strings.Type) -> String, Source.Error == Never {
-		_ = source.map { $0(Strings.self) }.bind(to: value.reactive.placeholder)
-		return self
+		self.placeholder(source.map { $0(Strings.self) })
 	}
 }
 
