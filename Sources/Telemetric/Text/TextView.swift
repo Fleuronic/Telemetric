@@ -11,4 +11,3 @@ public extension ReactiveExtensions where Base: UITextView {
 		text.ignoreNils().removeDuplicates()
 	}
 }
-
