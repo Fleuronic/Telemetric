@@ -7,8 +7,10 @@ import protocol ReactiveKit.ReactiveExtensions
 
 public final class Button: UIButton {}
 
+// MARK: -
 extension Button: Stylable {}
 
+// MARK: -
 public extension Styled<Button> {
 	func title<Source: SignalProtocol, Strings>(_ source: Source) -> Self where Source.Element == (Strings.Type) -> String, Source.Error == Never {
 		_ = source.map { $0(Strings.self) }.bind(to: value.reactive.title)
