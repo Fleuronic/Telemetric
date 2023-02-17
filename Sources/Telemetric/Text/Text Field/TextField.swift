@@ -1,6 +1,10 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
+import struct UIKit.CGFloat
 import struct UIKit.CGRect
+import struct UIKit.UIEdgeInsets
+import struct Metric.Insets
+import struct Metric.Kerning
 import struct Bond.Bond
 import struct ReactiveKit.SafeSignal
 import class UIKit.UITextField
@@ -11,8 +15,30 @@ import protocol ReactiveKit.SignalProtocol
 import protocol ReactiveKit.ReactiveExtensions
 
 open class TextField: UITextField {
+	open var rectInsets: UIEdgeInsets {
+		.init(
+			horizontal: horizontalInsets,
+			vertical: verticalInsets
+		)
+	}
+
 	public var maxLength: Int?
 	public var acceptedCharacter: Regex<Substring>?
+	public var horizontalInsets: Insets.Horizontal = .zero
+	public var verticalInsets: Insets.Vertical = .zero
+
+	public var kerning: Kerning? {
+		get {
+			(defaultTextAttributes[.kern] as? CGFloat).map(Kerning.init)
+		}
+		set {
+			if let newValue {
+				defaultTextAttributes.updateValue(newValue.value, forKey: .kern)
+			} else {
+				defaultTextAttributes.removeValue(forKey: .kern)
+			}
+		}
+	}
 
 	// MARK: NSCoding
 	public required init(coder: NSCoder) {
@@ -23,6 +49,19 @@ open class TextField: UITextField {
 	public override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.delegate = self
+	}
+
+	// MARK: UITextField
+	open override func textRect(forBounds bounds: CGRect) -> CGRect {
+		super.textRect(forBounds: bounds).inset(by: rectInsets)
+	}
+
+	open override func editingRect(forBounds bounds: CGRect) -> CGRect {
+		super.editingRect(forBounds: bounds).inset(by: rectInsets)
+	}
+
+	open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+		super.placeholderRect(forBounds: bounds).inset(by: rectInsets)
 	}
 }
 
