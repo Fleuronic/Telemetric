@@ -12,8 +12,10 @@ import protocol ReactiveKit.ReactiveExtensions
 
 public final class TableView: UITableView {}
 
+// MARK: -
 extension TableView: Stylable {}
 
+// MARK: -
 public extension UITableView {
 	static var plain: Styled<TableView> {
 		.init()
