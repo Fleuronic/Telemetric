@@ -10,7 +10,7 @@ import protocol ReactiveKit.BindableProtocol
 
 @dynamicMemberLookup
 public struct Styled<Value: Stylable> {
-	let value: Value
+	var value: Value
 
 	public init() {
 		value = .init()
