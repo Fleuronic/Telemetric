@@ -3,13 +3,10 @@
 import class UIKit.UILabel
 import protocol ReactiveKit.SignalProtocol
 
-public final class Label: UILabel {}
+extension UILabel: TextStylable {}
 
 // MARK: -
-extension Label: TextStylable {}
-
-// MARK: -
-public extension Styled<Label> {
+public extension Styled<UILabel> {
 	var multiline: Self {
 		self.numberOfLines(0)
 	}

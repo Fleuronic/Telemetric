@@ -4,23 +4,25 @@ import enum Metric.Border
 import class UIKit.UIView
 import struct Metric.Opacity
 import struct Bond.Bond
+import struct Layoutless.Layout
 import protocol Layoutless.AnyLayout
 import protocol ReactiveKit.ReactiveExtensions
 
-public final class View: UIView {}
-
-// MARK: -
-extension View: Stylable {}
+extension UIView: Stylable {}
 
 // MARK: -
 public extension UIView {
-	static var container: Styled<View> {
+	static var container: Styled<UIView> {
 		.init()
 	}
 }
 
 // MARK: -
-public extension Styled<View> {
+public extension Styled<UIView> {
+	var layout: Layout<UIView> {
+		.just(value)
+	}
+
 	func addingLayout(_ layout: AnyLayout) -> AnyLayout {
 		value.addingLayout(layout)
 	}
