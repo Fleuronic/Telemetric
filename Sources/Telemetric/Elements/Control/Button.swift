@@ -1,30 +1,27 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
-import struct UIKit.CGFloat
+import DynamicColor
+import enum Metric.Corner
 import struct Metric.Percentage
 import struct Metric.Opacity
-
-import DynamicColor
-
+import struct Bond.Bond
 import class UIKit.UIColor
-import class UIKit.UIView
 import class UIKit.UIButton
+import protocol ReactiveKit.SignalProtocol
+import protocol ReactiveKit.ReactiveExtensions
 
 // MARK: -
-public extension Styled where Value: UIView {
-	func backgroundColorAsset<BackgroundColor>(_ color: (BackgroundColor.Type) -> UIColor) -> Self {
-		value.backgroundColor = color(BackgroundColor.self)
+public extension Styled<UIButton> {
+	func title<Source: SignalProtocol, Strings>(_ source: Source) -> Self where Source.Element == (Strings.Type) -> String, Source.Error == Never {
+		_ = source.map { $0(Strings.self) }.bind(to: value.reactive.title)
 		return self
 	}
 
-	func borderColorAsset<BorderColor>(_ color: (BorderColor.Type) -> UIColor) -> Self {
-		value.layer.borderColor = color(BorderColor.self).cgColor
+	func cornerRadius(radius: (Corner.Radius.Type) -> Corner.Radius) -> Self {
+		value.configuration?.background.cornerRadius = radius(Corner.Radius.self).value
 		return self
 	}
-}
 
-// MARK: -
-public extension Styled where Value: UIButton {
 	func titleColorAsset<TextColor>(_ color: @escaping (TextColor.Type) -> UIColor) -> Self {
 		let color = color(TextColor.self)
 		value.setTitleColor(color, for: .normal)
@@ -58,5 +55,16 @@ public extension Styled where Value: UIButton {
 		}
 
 		return self
+	}
+}
+
+
+// MARK: -
+public extension ReactiveExtensions where Base: UIButton {
+	var showsActivity: Bond<Bool> {
+		bond {
+			$0.setTitle($1 ? .init() : $0.currentTitle, for: .normal)
+			$0.configuration?.showsActivityIndicator = $1
+		}
 	}
 }

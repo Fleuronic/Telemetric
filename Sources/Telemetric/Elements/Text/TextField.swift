@@ -26,6 +26,7 @@ open class TextField: UITextField {
 	public var acceptedCharacter: Regex<Substring>?
 	public var horizontalInsets: Insets.Horizontal = .zero
 	public var verticalInsets: Insets.Vertical = .zero
+	private var insets: UIEdgeInsets = .zero
 
 	public var kerning: Kerning? {
 		get {
