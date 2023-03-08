@@ -17,7 +17,7 @@ public extension UITableView {
 }
 
 // MARK: -
-public extension Styled<UITableView> {
+public extension Styled where Value: UITableView {
 	func rowSelected<Target: BindableProtocol>(_ target: Target) -> Self where Target.Element == Int {
 		_ = target.bind(signal: value.reactive.selectedRowIndexPath.map(\.row))
 		return self

@@ -5,8 +5,8 @@ import struct UIKit.CGRect
 import struct UIKit.UIEdgeInsets
 import struct Metric.Insets
 import struct Metric.Kerning
-import struct Bond.Bond
 import struct ReactiveKit.SafeSignal
+import struct Bond.Bond
 import class UIKit.UITextField
 import class Foundation.NSCoder
 import struct Foundation.NSRange
@@ -15,31 +15,12 @@ import protocol ReactiveKit.SignalProtocol
 import protocol ReactiveKit.ReactiveExtensions
 
 open class TextField: UITextField {
-	open var rectInsets: UIEdgeInsets {
-		.init(
-			horizontal: horizontalInsets,
-			vertical: verticalInsets
-		)
-	}
+	open var rectInsets: UIEdgeInsets { insets }
 
 	public var maxLength: Int?
 	public var acceptedCharacter: Regex<Substring>?
-	public var horizontalInsets: Insets.Horizontal = .zero
-	public var verticalInsets: Insets.Vertical = .zero
-	private var insets: UIEdgeInsets = .zero
 
-	public var kerning: Kerning? {
-		get {
-			(defaultTextAttributes[.kern] as? CGFloat).map(Kerning.init)
-		}
-		set {
-			if let newValue {
-				defaultTextAttributes.updateValue(newValue.value, forKey: .kern)
-			} else {
-				defaultTextAttributes.removeValue(forKey: .kern)
-			}
-		}
-	}
+	fileprivate var insets: UIEdgeInsets = .zero
 
 	// MARK: NSCoding
 	public required init(coder: NSCoder) {
@@ -84,9 +65,31 @@ extension TextField: UITextFieldDelegate {
 extension TextField: TextStylable {}
 
 // MARK: -
-public extension Styled<TextField> {
+public extension Styled where Value: UITextField {
+	func kerning(named name: Kerning.Name) -> Self {
+		value.defaultTextAttributes.updateValue(name(Kerning.self).value, forKey: .kern)
+		return self
+	}
+
 	func placeholder<Source: SignalProtocol, Strings>(_ source: Source) -> Self where Source.Element == (Strings.Type) -> String, Source.Error == Never {
 		self.placeholder(source.map { $0(Strings.self) })
+	}
+}
+
+// MARK: -
+public extension Styled where Value: TextField {
+	func horizontalInsets(named name: Insets.Horizontal.Name) -> Self {
+		let inset = name(Insets.Horizontal.self).value
+		value.insets.left = inset
+		value.insets.right = inset
+		return self
+	}
+
+	func verticalInsets(named name: Insets.Vertical.Name) -> Self {
+		let inset = name(Insets.Vertical.self).value
+		value.insets.top = inset
+		value.insets.bottom = inset
+		return self
 	}
 }
 

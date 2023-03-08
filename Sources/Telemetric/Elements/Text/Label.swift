@@ -6,7 +6,7 @@ import protocol ReactiveKit.SignalProtocol
 extension UILabel: TextStylable {}
 
 // MARK: -
-public extension Styled<UILabel> {
+public extension Styled where Value: UILabel {
 	var multiline: Self {
 		self.numberOfLines(0)
 	}

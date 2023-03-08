@@ -7,7 +7,7 @@ import struct Layoutless.Layout
 import protocol Layoutless.AnyLayout
 
 // MARK: -
-public extension Styled<UIStackView> {
+public extension Styled where Value: UIStackView {
 	func content(_ content: [AnyLayout]) -> Layout<UIStackView> {
 		.init { revertable in
 			content.forEach { revertable.append($0.layout(in: value)) }

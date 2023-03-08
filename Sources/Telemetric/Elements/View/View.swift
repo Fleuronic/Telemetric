@@ -57,6 +57,6 @@ public extension ReactiveExtensions where Base: UIView {
 	}
 
 	var opacity: Bond<Opacity> {
-		bond { $0.opacity = $1 }
+		bond { $0.alpha = $1.value }
 	}
 }
