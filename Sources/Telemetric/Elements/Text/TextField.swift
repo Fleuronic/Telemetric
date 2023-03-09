@@ -1,18 +1,10 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
-import struct UIKit.CGFloat
-import struct UIKit.CGRect
-import struct UIKit.UIEdgeInsets
+import UIKit
+import ReactiveKit
+import Bond
 import struct Metric.Insets
 import struct Metric.Kerning
-import struct ReactiveKit.SafeSignal
-import struct Bond.Bond
-import class UIKit.UITextField
-import class Foundation.NSCoder
-import struct Foundation.NSRange
-import protocol UIKit.UITextFieldDelegate
-import protocol ReactiveKit.SignalProtocol
-import protocol ReactiveKit.ReactiveExtensions
 
 open class TextField: UITextField {
 	open var rectInsets: UIEdgeInsets { insets }

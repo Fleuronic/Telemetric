@@ -1,12 +1,7 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
-import class Foundation.NSObject
-import struct ReactiveKit.Reactive
-import struct ReactiveKit.SafeSignal
-import struct Bond.Bond
-import struct Bond.DynamicSubject
-import protocol ReactiveKit.SignalProtocol
-import protocol ReactiveKit.BindableProtocol
+import ReactiveKit
+import Bond
 
 @dynamicMemberLookup
 public struct Styled<Value: Stylable> {

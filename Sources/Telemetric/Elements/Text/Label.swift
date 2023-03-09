@@ -1,7 +1,7 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
-import class UIKit.UILabel
-import protocol ReactiveKit.SignalProtocol
+import UIKit
+import ReactiveKit
 
 extension UILabel: TextStylable {}
 

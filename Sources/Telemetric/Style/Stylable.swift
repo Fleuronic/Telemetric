@@ -1,6 +1,5 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
-import class UIKit.UIView
-import protocol ReactiveKit.ReactiveExtensionsProvider
+import UIKit
 
-public protocol Stylable: ReactiveExtensionsProvider, UIView {}
+public protocol Stylable: UIView {}

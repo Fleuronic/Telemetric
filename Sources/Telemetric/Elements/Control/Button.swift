@@ -1,14 +1,12 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
+import UIKit
 import DynamicColor
+import ReactiveKit
+import Bond
 import enum Metric.Corner
 import struct Metric.Percentage
 import struct Metric.Opacity
-import struct Bond.Bond
-import class UIKit.UIColor
-import class UIKit.UIButton
-import protocol ReactiveKit.SignalProtocol
-import protocol ReactiveKit.ReactiveExtensions
 
 // MARK: -
 public extension Styled where Value: UIButton {

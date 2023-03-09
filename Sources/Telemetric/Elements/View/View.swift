@@ -1,14 +1,12 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
+import UIKit
+import Layoutless
+import ReactiveKit
+import Bond
 import enum Metric.Border
 import enum Metric.Corner
-import class UIKit.UIColor
-import class UIKit.UIView
 import struct Metric.Opacity
-import struct Bond.Bond
-import struct Layoutless.Layout
-import protocol Layoutless.AnyLayout
-import protocol ReactiveKit.ReactiveExtensions
 
 extension UIView: Stylable {}
 

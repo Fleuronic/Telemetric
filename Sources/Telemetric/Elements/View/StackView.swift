@@ -1,12 +1,10 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
+import UIKit
+import Layoutless
 import enum Metric.Spacing
 import struct Metric.Insets
-import class UIKit.UIStackView
-import struct Layoutless.Layout
-import protocol Layoutless.AnyLayout
 
-// MARK: -
 public extension Styled where Value: UIStackView {
 	func content(_ content: [AnyLayout]) -> Layout<UIStackView> {
 		.init { revertable in
@@ -15,27 +13,29 @@ public extension Styled where Value: UIStackView {
 		}
 	}
 
-	func horizontalSpacing(_ spacing: Spacing.Horizontal) -> Self {
-		value.spacing = spacing.value
+	func horizontalSpacing(named name: Spacing.Horizontal.Name) -> Self {
+		value.spacing = name(Spacing.Horizontal.self).value
 		return self
 	}
 
-	func verticalSpacing(_ spacing: Spacing.Vertical) -> Self {
-		value.spacing = spacing.value
+	func verticalSpacing(named name: Spacing.Vertical.Name) -> Self {
+		value.spacing = name(Spacing.Vertical.self).value
 		return self
 	}
 
-	func horizontalInsets(_ insets: Insets.Horizontal) -> Self {
+	func horizontalInsets(named name: Insets.Horizontal.Name) -> Self {
+		let insets = name(Insets.Horizontal.self).value
 		value.isLayoutMarginsRelativeArrangement = true
-		value.directionalLayoutMargins.leading = insets.value
-		value.directionalLayoutMargins.trailing = insets.value
+		value.directionalLayoutMargins.leading = insets
+		value.directionalLayoutMargins.trailing = insets
 		return self
 	}
 
-	func verticalInsets(_ insets: Insets.Vertical) -> Self {
+	func verticalInsets(named name: Insets.Vertical.Name) -> Self {
+		let insets = name(Insets.Vertical.self).value
 		value.isLayoutMarginsRelativeArrangement = true
-		value.directionalLayoutMargins.top = insets.value
-		value.directionalLayoutMargins.bottom = insets.value
+		value.directionalLayoutMargins.top = insets
+		value.directionalLayoutMargins.bottom = insets
 		return self
 	}
 }

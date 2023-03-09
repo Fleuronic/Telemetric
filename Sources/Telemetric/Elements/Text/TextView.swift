@@ -1,8 +1,7 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
-import class UIKit.UITextView
-import struct ReactiveKit.SafeSignal
-import protocol ReactiveKit.ReactiveExtensions
+import UIKit
+import ReactiveKit
 
 extension UITextView: TextStylable {}
 

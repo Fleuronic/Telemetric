@@ -1,9 +1,8 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
-import class UIKit.UIResponder
-import struct Bond.Bond
-import protocol ReactiveKit.SignalProtocol
-import protocol ReactiveKit.ReactiveExtensions
+import UIKit
+import ReactiveKit
+import Bond
 
 public extension ReactiveExtensions where Base: UIResponder {
 	var isFocused: Bond<Bool> {

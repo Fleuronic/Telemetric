@@ -1,14 +1,7 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
-import class UIKit.UITableView
-import class UIKit.UITableViewCell
-import class ReactiveKit.PassthroughSubject
-import struct UIKit.IndexPath
-import struct ReactiveKit.SafeSignal
-import protocol UIKit.UITableViewDataSource
-import protocol ReactiveKit.SignalProtocol
-import protocol ReactiveKit.BindableProtocol
-import protocol ReactiveKit.ReactiveExtensions
+import UIKit
+import ReactiveKit
 
 public extension UITableView {
 	static var plain: Styled<UITableView> {

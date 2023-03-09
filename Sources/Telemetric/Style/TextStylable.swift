@@ -1,13 +1,8 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
-import enum UIKit.NSTextAlignment
-import class UIKit.UIColor
-import class UIKit.UILabel
-import class UIKit.UITextField
-import class UIKit.UITextView
-import struct Bond.Bond
-import protocol ReactiveKit.SignalProtocol
-import protocol ReactiveKit.ReactiveExtensions
+import UIKit
+import ReactiveKit
+import Bond
 
 public protocol TextStylable: Stylable {
 	var textAlignment: NSTextAlignment { get set }
