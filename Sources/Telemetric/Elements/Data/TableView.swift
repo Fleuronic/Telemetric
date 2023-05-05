@@ -3,6 +3,8 @@
 import UIKit
 import ReactiveKit
 
+import struct Metric.Styled
+
 public extension UITableView {
 	static var plain: Styled<UITableView> {
 		.init()
@@ -10,20 +12,20 @@ public extension UITableView {
 }
 
 // MARK: -
-public extension Styled where Value: UITableView {
+public extension Styled where Base: UITableView {
 	func rowSelected<Target: BindableProtocol>(_ target: Target) -> Self where Target.Element == Int {
-		_ = target.bind(signal: value.reactive.selectedRowIndexPath.map(\.row))
+		_ = target.bind(signal: base.reactive.selectedRowIndexPath.map(\.row))
 		return self
 	}
 
 	func rowDeleted<Target: BindableProtocol>(_ target: Target) -> Self where Target.Element == Int {
-		_ = target.bind(signal: value.reactive.deletedRowIndexPath.map(\.row))
+		_ = target.bind(signal: base.reactive.deletedRowIndexPath.map(\.row))
 		return self
 	}
 
 	func cellsText<Source: SignalProtocol>(_ source: Source) -> UITableView where Source.Element == [String], Source.Error == Never {
-		_ = source.diff().bind(to: value, cellType: UITableViewCell.self) { $0.textLabel?.text = $1 }
-		return value
+		_ = source.diff().bind(to: base, cellType: UITableViewCell.self) { $0.textLabel?.text = $1 }
+		return base
 	}
 }
 

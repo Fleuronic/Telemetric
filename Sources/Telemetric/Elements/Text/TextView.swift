@@ -3,7 +3,9 @@
 import UIKit
 import ReactiveKit
 
-extension UITextView: TextStylable {}
+import protocol Metric.Text
+
+extension UITextView: Text {}
 
 // MARK: -
 public extension ReactiveExtensions where Base: UITextView {
