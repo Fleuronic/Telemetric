@@ -4,8 +4,8 @@ import UIKit
 import ReactiveSwift
 import ReactiveCocoa
 
-import struct Metric.Styled
-import protocol Metric.Text
+import struct Geometric.Styled
+import protocol Geometric.Text
 
 public extension Styled where Base: Text {
 	func textColorAsset<TextColor>(_ property: Property<(TextColor.Type) -> UIColor>) -> Self  {

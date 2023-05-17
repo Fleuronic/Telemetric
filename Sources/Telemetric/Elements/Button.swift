@@ -4,7 +4,7 @@ import UIKit
 import ReactiveSwift
 import ReactiveCocoa
 
-import struct Metric.Styled
+import struct Geometric.Styled
 
 public extension Styled where Base: UIButton {
 	func action(_ target: BindingTarget<Void>) -> Base {

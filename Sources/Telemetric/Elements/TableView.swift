@@ -2,7 +2,7 @@
 
 import UIKit
 
-import struct Metric.Styled
+import struct Geometric.Styled
 
 public extension Styled where Base: UITableView {
 //	func rowSelected<Target: BindableProtocol>(_ target: Target) -> Self where Target.Element == Int {

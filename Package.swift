@@ -13,7 +13,8 @@ let package = Package(
 		)
 	],
 	dependencies: [
-		.package(url: "https://github.com/Fleuronic/Metric.git", branch: "main"),
+		.package(url: "https://github.com/Fleuronic/Metric", branch: "main"),
+		.package(url: "https://github.com/Fleuronic/Geometric", branch: "main"),
 		.package(url: "https://github.com/ReactiveCocoa/ReactiveCocoa", from: "12.0.0"),
 		.package(url: "https://github.com/DeclarativeHub/Layoutless", .upToNextMajor(from: "0.4.0"))
 	],
@@ -22,6 +23,7 @@ let package = Package(
 			name: "Telemetric",
 			dependencies: [
 				"Metric",
+				"Geometric",
 				"ReactiveCocoa",
 				"Layoutless"
 			]

@@ -3,8 +3,7 @@
 import UIKit
 import ReactiveSwift
 
-import struct Metric.Styled
-import protocol Metric.Text
+import struct Geometric.Styled
 
 public extension Styled where Base: UITextField {
 	func edited(_ target: BindingTarget<String>) -> Base {

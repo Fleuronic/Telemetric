@@ -2,7 +2,7 @@
 
 import ReactiveSwift
 
-import struct Metric.Styled
+import struct Geometric.Styled
 
 public extension Styled {
 	subscript<T>(dynamicMember keyPath: KeyPath<Reactive<Base>, BindingTarget<T>>) -> (Property<T>) -> Styled<Base> {
