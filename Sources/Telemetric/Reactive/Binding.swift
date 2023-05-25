@@ -5,7 +5,7 @@ import ReactiveSwift
 import struct Geometric.Styled
 
 public extension Styled {
-	subscript<T>(dynamicMember keyPath: KeyPath<Reactive<Base>, BindingTarget<T>>) -> (Property<T>) -> Styled<Base> {
+	subscript<Value>(dynamicMember keyPath: KeyPath<Reactive<Base>, BindingTarget<Value>>) -> (Property<Value>) -> Styled<Base> {
 		{
 			base.reactive[keyPath: keyPath] <~ $0
 			return self
