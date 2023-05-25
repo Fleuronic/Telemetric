@@ -1,32 +1,67 @@
 // Copyright © Fleuronic LLC. All rights reserved.
 
 import UIKit
+import ReactiveSwift
+import ReactiveCocoa
+import ReactiveDataSources
 
 import struct Geometric.Styled
 
 public extension Styled where Base: UITableView {
-//	func rowSelected<Target: BindableProtocol>(_ target: Target) -> Self where Target.Element == Int {
-//		_ = target.bind(signal: base.reactive.selectedRowIndexPath.map(\.row))
-//		return self
-//	}
-//
-//	func rowDeleted<Target: BindableProtocol>(_ target: Target) -> Self where Target.Element == Int {
-//		_ = target.bind(signal: base.reactive.deletedRowIndexPath.map(\.row))
-//		return self
-//	}
-//
-//	func cellsText<Source: SignalProtocol>(_ source: Source) -> UITableView where Source.Element == [String], Source.Error == Never {
-//		_ = source.diff().bind(to: base, cellType: UITableViewCell.self) { $0.textLabel?.text = $1 }
-//		return base
-//	}
+    func items<Item: Equatable & Identifiable>(_ property: Property<[Item]>, text keyPath: KeyPath<Item, String>) -> Self {
+        let identifier = String(reflecting: Item.self)
+        let dataSource = ReactiveTableViewSectionedAnimatedDataSource<List<Item>> { _, tableView, indexPath, item in
+            let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
+            cell.textLabel?.text = item[keyPath: keyPath]
+            return cell
+        }
+        
+        objc_setAssociatedObject(base, &dataSourceKey, dataSource, .OBJC_ASSOCIATION_RETAIN)
+        base.dataSource = dataSource
+        base.register(UITableViewCell.self, forCellReuseIdentifier: identifier)
+        base.reactive.items(dataSource: dataSource) <~ property.map { [.init(items: $0)] }
+        
+        return self
+    }
+    
+    func selected<Item: Equatable & Identifiable>(_ target: BindingTarget<Item>) -> Base {
+        let delegate = Delegate()
+        let dataSource = base.dataSource as! TableViewSectionedDataSource<List<Item>>
+        
+        objc_setAssociatedObject(base, &delegateKey, delegate, .OBJC_ASSOCIATION_RETAIN)
+        base.delegate = delegate
+        target <~ delegate.selectRowAtIndexPath.output.map { dataSource[$0] }
+        return base
+    }
 }
 
 // MARK: -
-//private extension ReactiveExtensions where Base: UITableView {
-//	var deletedRowIndexPath: SafeSignal<IndexPath> {
-//		return dataSource.signal(for: #selector(UITableViewDataSource.tableView(_:commit:forRowAt:))) { (subject: PassthroughSubject<IndexPath, Never>, _: UITableView, editingStyle: UITableViewCell.EditingStyle.RawValue, indexPath: IndexPath) in
-//			guard case .delete = UITableViewCell.EditingStyle(rawValue: editingStyle) else { return }
-//			subject.send(indexPath)
-//		}
-//	}
-//}
+private struct List<Item: Equatable & Identifiable> {
+    let items: [Item]
+}
+
+// MARK: -
+extension List: AnimatableSectionModelType {
+    // MARK: SectionModelType
+    init(original: Self, items: [Item]) {
+        self = original
+    }
+    
+    var id: Int { 0 }
+}
+
+// MARK: -
+private class Delegate: NSObject {
+    fileprivate let selectRowAtIndexPath = Signal<IndexPath, Never>.pipe()
+}
+
+// MARK: -
+extension Delegate: UITableViewDelegate {
+    // MARK: UITableViewDelegate
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectRowAtIndexPath.input.send(value: indexPath)
+    }
+}
+
+private var delegateKey: Void?
+private var dataSourceKey: Void?
