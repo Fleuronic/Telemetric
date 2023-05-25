@@ -8,7 +8,7 @@ import ReactiveDataSources
 import struct Geometric.Styled
 
 public extension Styled where Base: UITableView {
-    func items<Item: Equatable & Identifiable>(_ property: Property<[Item]>, text keyPath: KeyPath<Item, String>) -> Self {
+    func items<Item: Equatable & Identifiable>(_ property: Property<[Item]>, text keyPath: KeyPath<Item, String>) -> Base {
         let identifier = String(reflecting: Item.self)
         let dataSource = ReactiveTableViewSectionedAnimatedDataSource<List<Item>> { _, tableView, indexPath, item in
             let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
@@ -21,17 +21,17 @@ public extension Styled where Base: UITableView {
         base.register(UITableViewCell.self, forCellReuseIdentifier: identifier)
         base.reactive.items(dataSource: dataSource) <~ property.map { [.init(items: $0)] }
         
-        return self
+        return base
     }
     
-    func selected<Item: Equatable & Identifiable>(_ target: BindingTarget<Item>) -> Base {
+    func selected<Item: Equatable & Identifiable>(_ target: BindingTarget<Item>) -> Self {
         let delegate = Delegate()
         let dataSource = base.dataSource as! TableViewSectionedDataSource<List<Item>>
         
         objc_setAssociatedObject(base, &delegateKey, delegate, .OBJC_ASSOCIATION_RETAIN)
         base.delegate = delegate
         target <~ delegate.selectRowAtIndexPath.output.map { dataSource[$0] }
-        return base
+        return self
     }
 }
 
