@@ -7,7 +7,7 @@ import ReactiveCocoa
 import struct Geometric.Styled
 
 public extension Styled where Base: UIButton {
-	func action(_ target: BindingTarget<Void>) -> Base {
+	func tapped(_ target: BindingTarget<Void>) -> Base {
 		target <~ base.reactive.controlEvents(.touchUpInside).map { _ in }
 		return base
 	}
