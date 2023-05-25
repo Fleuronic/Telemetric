@@ -24,7 +24,7 @@ public extension Styled where Base: UITableView {
         return base
     }
     
-    func selected<Item: Equatable & Identifiable>(_ target: BindingTarget<Item>) -> Self {
+    func itemSelected<Item: Equatable & Identifiable>(_ target: BindingTarget<Item>) -> Self {
         let delegate = Delegate()
         let dataSource = base.dataSource as! TableViewSectionedDataSource<List<Item>>
         
@@ -42,12 +42,13 @@ private struct List<Item: Equatable & Identifiable> {
 
 // MARK: -
 extension List: AnimatableSectionModelType {
+	// MARK: Identifiable
+	var id: Int { 0 }
+
     // MARK: SectionModelType
     init(original: Self, items: [Item]) {
         self = original
     }
-    
-    var id: Int { 0 }
 }
 
 // MARK: -
