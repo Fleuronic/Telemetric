@@ -20,6 +20,7 @@ public extension Styled where Base: UITableView {
 				var configuration = cell.defaultContentConfiguration()
 				configuration.text = item[keyPath: keyPath]
 				cell.contentConfiguration = configuration
+                cell.accessoryType = .disclosureIndicator
 			case .loading:
 				cell = tableView.dequeueReusableCell(withIdentifier: loadingIdentifier, for: indexPath)
 			}
