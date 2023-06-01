@@ -6,7 +6,7 @@ import ReactiveSwift
 
 final class Delegate: NSObject {
     private let shouldHighlightRow: (IndexPath) -> Bool
-	private let selectedIndexpathPipe = Signal<IndexPath, Never>.pipe()
+	private let selectedIndexPathPipe = Signal<IndexPath, Never>.pipe()
     
     init(shouldHighlightRow:  @escaping (IndexPath) -> Bool) {
         self.shouldHighlightRow = shouldHighlightRow
@@ -15,7 +15,7 @@ final class Delegate: NSObject {
 
 extension Delegate {
 	var selectedIndexPath: Signal<IndexPath, Never> {
-		selectedIndexpathPipe.output
+		selectedIndexPathPipe.output
 	}
 }
 
@@ -27,7 +27,7 @@ extension Delegate: UITableViewDelegate {
     }
     
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		selectedIndexpathPipe.input.send(value: indexPath)
+		selectedIndexPathPipe.input.send(value: indexPath)
 	}
 	
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
