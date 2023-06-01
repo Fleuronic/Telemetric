@@ -8,9 +8,9 @@ import ReactiveDataSources
 import struct Geometric.Styled
 
 public extension Styled where Base: UITableView {
-	func items<Item: Equatable & Identifiable>(
-        _ property: Property<[Item]>,
-        text keyPath: KeyPath<Item, String>,
+	func content<Item: Equatable & Identifiable>(
+        items: Property<[Item]>,
+        text: KeyPath<Item, String>,
         loading: Property<Bool> = .init(value: false),
         canSelectItem: @escaping (Item) -> Bool = { _ in true }
     ) -> Self {
@@ -23,7 +23,7 @@ public extension Styled where Base: UITableView {
 				cell = tableView.dequeueReusableCell(withIdentifier: itemIdentifier, for: indexPath)
 				
 				var configuration = cell.defaultContentConfiguration()
-				configuration.text = item[keyPath: keyPath]
+				configuration.text = item[keyPath: text]
 				cell.contentConfiguration = configuration
                 cell.accessoryType = row.isSelectable ? .disclosureIndicator : .none
 			case .loading:
@@ -36,7 +36,7 @@ public extension Styled where Base: UITableView {
 		base.dataSource = dataSource
 		base.register(UITableViewCell.self, forCellReuseIdentifier: itemIdentifier)
 		base.register(UITableView.LoadingCell.self, forCellReuseIdentifier: loadingIdentifier)
-		base.reactive.items(dataSource: dataSource) <~ property.combineLatest(with: loading).map {
+		base.reactive.items(dataSource: dataSource) <~ items.combineLatest(with: loading).map {
 			[
                 List(
                     items: $0.0,
