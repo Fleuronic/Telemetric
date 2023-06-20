@@ -11,6 +11,7 @@ public extension Styled where Base: UITableView {
 	func content<Item: Equatable & Identifiable>(
         items: Property<[Item]>,
         text: KeyPath<Item, String>,
+		detailText: KeyPath<Item, String>? = nil,
         loading: Property<Bool> = .init(value: false),
         canSelectItem: @escaping (Item) -> Bool = { _ in true }
     ) -> Self {
@@ -24,6 +25,7 @@ public extension Styled where Base: UITableView {
 				
 				var configuration = cell.defaultContentConfiguration()
 				configuration.text = item[keyPath: text]
+				configuration.secondaryText = detailText.map { item[keyPath: $0] }
 				cell.contentConfiguration = configuration
                 cell.accessoryType = row.isSelectable ? .disclosureIndicator : .none
 			case .loading:
