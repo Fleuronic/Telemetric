@@ -38,7 +38,7 @@ public extension Styled where Base: UITableView {
 		base.dataSource = dataSource
 		base.register(UITableViewCell.self, forCellReuseIdentifier: itemIdentifier)
 		base.register(UITableView.LoadingCell.self, forCellReuseIdentifier: loadingIdentifier)
-		base.reactive.items(dataSource: dataSource) <~ items.combineLatest(with: loading).map {
+		base.reactive.items(dataSource: dataSource) <~ items.zip(with: loading).map {
 			[
                 List(
                     items: $0.0,
