@@ -12,11 +12,12 @@ public extension Styled where Base: UITableView {
         items: Property<[Item]>,
         text: KeyPath<Item, String>,
 		detailText: KeyPath<Item, String>? = nil,
-        loading: Property<Bool> = .init(value: false),
+        loading: Property<Bool>? = nil,
         canSelectItem: @escaping (Item) -> Bool = { _ in true }
     ) -> Self {
 		let itemIdentifier = String(reflecting: Item.self)
 		let loadingIdentifier = String(reflecting: UITableView.LoadingCell.self)
+		let data = loading.map(items.zip) ?? items.map { ($0, false) }
 		let dataSource = ReactiveTableViewSectionedAnimatedDataSource<List<Item>> { _, tableView, indexPath, row in
 			let cell: UITableViewCell
             switch row.content {
@@ -38,7 +39,7 @@ public extension Styled where Base: UITableView {
 		base.dataSource = dataSource
 		base.register(UITableViewCell.self, forCellReuseIdentifier: itemIdentifier)
 		base.register(UITableView.LoadingCell.self, forCellReuseIdentifier: loadingIdentifier)
-		base.reactive.items(dataSource: dataSource) <~ items.zip(with: loading).map {
+		base.reactive.items(dataSource: dataSource) <~ data.map {
 			[
                 List(
                     items: $0.0,
