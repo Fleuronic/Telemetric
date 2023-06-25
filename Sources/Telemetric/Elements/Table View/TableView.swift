@@ -13,42 +13,58 @@ public extension Styled where Base: UITableView {
         text: KeyPath<Item, String>,
 		detailText: KeyPath<Item, String>? = nil,
         loading: Property<Bool>? = nil,
-        canSelectItem: @escaping (Item) -> Bool = { _ in true }
+        canSelectItem: @escaping (Item) -> Bool = { _ in true },
+		animated: Bool = false
     ) -> Self {
 		let itemIdentifier = String(reflecting: Item.self)
 		let loadingIdentifier = String(reflecting: UITableView.LoadingCell.self)
 		let data = loading.map(items.zip) ?? items.map { ($0, false) }
-		let dataSource = ReactiveTableViewSectionedAnimatedDataSource<List<Item>> { _, tableView, indexPath, row in
+		let content = { (items: [Item], isLoading: Bool) -> [List<Item>] in
+			[
+				.init(
+					items: items,
+					isLoading: isLoading,
+					canSelectItem: canSelectItem
+				)
+			]
+		}
+
+		let configure = { (tableView: UITableView, indexPath: IndexPath, row: List<Item>.Row) -> UITableViewCell in
 			let cell: UITableViewCell
-            switch row.content {
+			switch row.content {
 			case let .item(item):
 				cell = tableView.dequeueReusableCell(withIdentifier: itemIdentifier, for: indexPath)
-				
+
 				var configuration = cell.defaultContentConfiguration()
 				configuration.text = item[keyPath: text]
 				configuration.secondaryText = detailText.map { item[keyPath: $0] }
 				cell.contentConfiguration = configuration
-                cell.accessoryType = row.isSelectable ? .disclosureIndicator : .none
+				cell.accessoryType = row.isSelectable ? .disclosureIndicator : .none
 			case .loading:
 				cell = tableView.dequeueReusableCell(withIdentifier: loadingIdentifier, for: indexPath)
 			}
 			return cell
 		}
-		
-		objc_setAssociatedObject(base, &dataSourceKey, dataSource, .OBJC_ASSOCIATION_RETAIN)
-		base.dataSource = dataSource
+
+		if animated {
+			let dataSource = ReactiveTableViewSectionedAnimatedDataSource<List<Item>> { _, tableView, indexPath, row in
+				configure(tableView, indexPath, row)
+			}
+			objc_setAssociatedObject(base, &dataSourceKey, dataSource, .OBJC_ASSOCIATION_RETAIN)
+			base.dataSource = dataSource
+			base.reactive.items(dataSource: dataSource) <~ data.map(content)
+		} else {
+			let dataSource = ReactiveTableViewSectionedReloadDataSource<List<Item>> { _, tableView, indexPath, row in
+				configure(tableView, indexPath, row)
+			}
+			objc_setAssociatedObject(base, &dataSourceKey, dataSource, .OBJC_ASSOCIATION_RETAIN)
+			base.dataSource = dataSource
+			base.reactive.items(dataSource: dataSource) <~ data.map(content)
+		}
+
 		base.register(UITableViewCell.self, forCellReuseIdentifier: itemIdentifier)
 		base.register(UITableView.LoadingCell.self, forCellReuseIdentifier: loadingIdentifier)
-		base.reactive.items(dataSource: dataSource) <~ data.map {
-			[
-                List(
-                    items: $0.0,
-                    isLoading: $0.1,
-                    canSelectItem: canSelectItem
-                )
-            ]
-		}
-		
+
 		return self
 	}
 	
