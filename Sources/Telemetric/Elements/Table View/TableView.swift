@@ -9,19 +9,44 @@ import struct Geometric.Styled
 
 public extension Styled where Base: UITableView {
 	func content<Item: Equatable & Identifiable>(
+		items: Property<[Item]>,
+		text: KeyPath<Item, String>,
+		detailText: KeyPath<Item, String>? = nil,
+		loading: Property<Bool>? = nil,
+		animated: Bool = false
+	) -> Base {
+		let styled = content(
+			items: items,
+			text: text,
+			detailText: detailText,
+			loading: loading,
+			canSelectItem: { _ in false },
+			animated: animated
+		)
+
+		let delegate = Delegate(
+			shouldHighlightRow: { _ in false }
+		)
+
+		objc_setAssociatedObject(styled.base, &delegateKey, delegate, .OBJC_ASSOCIATION_RETAIN)
+		styled.base.delegate = delegate
+		return styled.base
+	}
+
+	func content<Item: Equatable & Identifiable>(
         items: Property<[Item]>,
         text: KeyPath<Item, String>,
 		detailText: KeyPath<Item, String>? = nil,
         loading: Property<Bool>? = nil,
-        canSelectItem: @escaping (Item) -> Bool = { _ in true },
+        canSelectItem: @escaping (Item) -> Bool,
 		animated: Bool = false
     ) -> Self {
 		let itemIdentifier = String(reflecting: Item.self)
 		let loadingIdentifier = String(reflecting: UITableView.LoadingCell.self)
 		let data = loading.map(items.zip) ?? items.map { ($0, false) }
-		let content = { (items: [Item], isLoading: Bool) -> [List<Item>] in
+		let content = { (items: [Item], isLoading: Bool) in
 			[
-				.init(
+				List(
 					items: items,
 					isLoading: isLoading,
 					canSelectItem: canSelectItem
@@ -84,6 +109,7 @@ public extension Styled where Base: UITableView {
 				return item
 			}
 		}
+
 		return base
 	}
 }
