@@ -33,7 +33,7 @@
       "location" : "https://github.com/Fleuronic/Metric",
       "state" : {
         "branch" : "main",
-        "revision" : "6be8ecdceccfe16e1ae469f6f4d46959037b8999"
+        "revision" : "2ef9992dedf91e3bdcafdefe8ffe07c9bda04d0f"
       }
     },
     {
@@ -51,7 +51,7 @@
       "location" : "https://github.com/Fleuronic/ReactiveDataSources",
       "state" : {
         "branch" : "master",
-        "revision" : "618c79932ea0476e2a926dba480b9f96e3c70159"
+        "revision" : "70d1a5157d1a752099324c4363fecc8a5b537f11"
       }
     },
     {
