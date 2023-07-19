@@ -1,30 +1,21 @@
 {
   "pins" : [
     {
-      "identity" : "bond",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/DeclarativeHub/Bond",
-      "state" : {
-        "revision" : "146943c0bc03a93c48fb6c57db4e39f4b38ba74b",
-        "version" : "7.8.1"
-      }
-    },
-    {
-      "identity" : "differ",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tonyarnold/Differ.git",
-      "state" : {
-        "revision" : "5520fda947f1f9777a806389c2ba587219bc0538",
-        "version" : "1.4.6"
-      }
-    },
-    {
       "identity" : "dynamiccolor",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/yannickl/DynamicColor",
       "state" : {
         "revision" : "d9beca13ca85baa50ee29832d0db5129fba69630",
         "version" : "5.0.1"
+      }
+    },
+    {
+      "identity" : "geometric",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Fleuronic/Geometric",
+      "state" : {
+        "branch" : "main",
+        "revision" : "dfcf23de7a1ef40502f1c294babd065bd6f3a1f7"
       }
     },
     {
@@ -39,19 +30,37 @@
     {
       "identity" : "metric",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Fleuronic/Metric.git",
+      "location" : "https://github.com/Fleuronic/Metric",
       "state" : {
         "branch" : "main",
-        "revision" : "5570cdd9d11b5ec5efb49cc4007e3394799ca0fd"
+        "revision" : "6be8ecdceccfe16e1ae469f6f4d46959037b8999"
       }
     },
     {
-      "identity" : "reactivekit",
+      "identity" : "reactivecocoa",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/DeclarativeHub/ReactiveKit.git",
+      "location" : "https://github.com/ReactiveCocoa/ReactiveCocoa",
       "state" : {
-        "revision" : "dfb63f820aa54946c4cbcbe1b6024863a143d3a2",
-        "version" : "3.19.1"
+        "revision" : "8a5b07b18c6abb8e12fb845bf742675dc4914ed8",
+        "version" : "12.0.0"
+      }
+    },
+    {
+      "identity" : "reactivedatasources",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Fleuronic/ReactiveDataSources",
+      "state" : {
+        "branch" : "master",
+        "revision" : "618c79932ea0476e2a926dba480b9f96e3c70159"
+      }
+    },
+    {
+      "identity" : "reactiveswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ReactiveCocoa/ReactiveSwift.git",
+      "state" : {
+        "branch" : "swift-concurrency",
+        "revision" : "3d40187c982346352d0adbe6b38e0e3d53fddc95"
       }
     }
   ],
