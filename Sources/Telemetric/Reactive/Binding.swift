@@ -12,10 +12,10 @@ public extension Styled {
 		}
 	}
     
-    subscript<Value>(dynamicMember keyPath: KeyPath<Reactive<Base>, BindingTarget<Value>>) -> (Property<Value>) -> Base {
-        {
-            base.reactive[keyPath: keyPath] <~ $0
-            return base
-        }
-    }
+	subscript<Value>(dynamicMember keyPath: KeyPath<Reactive<Base>, BindingTarget<Value>>) -> (Property<Value>) -> Base {
+		{
+			base.reactive[keyPath: keyPath] <~ $0
+			return base
+		}
+	}
 }

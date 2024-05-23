@@ -34,13 +34,13 @@ public extension Styled where Base: UITableView {
 	}
 
 	func content<Item: Equatable & Identifiable>(
-        items: Property<[Item]>,
-        text: KeyPath<Item, String>,
+		items: Property<[Item]>,
+		text: KeyPath<Item, String>,
 		detailText: KeyPath<Item, String>? = nil,
-        loading: Property<Bool>? = nil,
-        canSelectItem: @escaping (Item) -> Bool,
+		loading: Property<Bool>? = nil,
+		canSelectItem: @escaping (Item) -> Bool,
 		animated: Bool = false
-    ) -> Self {
+	) -> Self {
 		let itemIdentifier = String(reflecting: Item.self)
 		let loadingIdentifier = String(reflecting: UITableView.LoadingCell.self)
 		let data = loading.map(items.zip) ?? items.map { ($0, false) }
@@ -95,14 +95,14 @@ public extension Styled where Base: UITableView {
 	
 	func itemSelected<Item: Equatable & Identifiable>(_ target: BindingTarget<Item>) -> Base {
 		let dataSource = base.dataSource as! TableViewSectionedDataSource<List<Item>>
-        let delegate = Delegate(
-            shouldHighlightRow: { dataSource[$0].isSelectable }
-        )
+		let delegate = Delegate(
+			shouldHighlightRow: { dataSource[$0].isSelectable }
+		)
 
 		objc_setAssociatedObject(base, &delegateKey, delegate, .OBJC_ASSOCIATION_RETAIN)
 		base.delegate = delegate
 		target <~ delegate.selectedIndexPath.compactMap {
-            switch dataSource[$0].content {
+			switch dataSource[$0].content {
 			case .loading:
 				return nil
 			case let .item(item):
