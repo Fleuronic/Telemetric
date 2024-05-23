@@ -15,7 +15,7 @@
       "location" : "https://github.com/Fleuronic/Geometric",
       "state" : {
         "branch" : "main",
-        "revision" : "dfcf23de7a1ef40502f1c294babd065bd6f3a1f7"
+        "revision" : "01cd0e70e477c1c47cc94580938808100bc76222"
       }
     },
     {
@@ -33,7 +33,7 @@
       "location" : "https://github.com/Fleuronic/Metric",
       "state" : {
         "branch" : "main",
-        "revision" : "2ef9992dedf91e3bdcafdefe8ffe07c9bda04d0f"
+        "revision" : "7eeb2337d1101915cc89dbd11393ad84652c2188"
       }
     },
     {
@@ -51,7 +51,7 @@
       "location" : "https://github.com/Fleuronic/ReactiveDataSources",
       "state" : {
         "branch" : "master",
-        "revision" : "70d1a5157d1a752099324c4363fecc8a5b537f11"
+        "revision" : "4a475d088786ef2a53feab4f9a8351a6614ec592"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ReactiveCocoa/ReactiveSwift.git",
       "state" : {
-        "branch" : "swift-concurrency",
-        "revision" : "3d40187c982346352d0adbe6b38e0e3d53fddc95"
+        "revision" : "40c465af19b993344e84355c00669ba2022ca3cd",
+        "version" : "7.1.1"
       }
     }
   ],

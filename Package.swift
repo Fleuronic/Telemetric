@@ -17,7 +17,6 @@ let package = Package(
 		.package(url: "https://github.com/Fleuronic/Geometric", branch: "main"),
 		.package(url: "https://github.com/ReactiveCocoa/ReactiveCocoa", from: "12.0.0"),
 		.package(url: "https://github.com/Fleuronic/ReactiveDataSources", branch: "master"),
-		.package(url: "https://github.com/DeclarativeHub/Layoutless", .upToNextMajor(from: "0.4.0"))
 	],
 	targets: [
 		.target(
@@ -26,8 +25,7 @@ let package = Package(
 				"Metric",
 				"Geometric",
 				"ReactiveCocoa",
-				"ReactiveDataSources",
-				"Layoutless"
+				"ReactiveDataSources"
 			]
 		),
 		.testTarget(
